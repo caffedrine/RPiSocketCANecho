@@ -36,3 +36,5 @@ cansend can0 127#AABBCCDDEEFFAABB
 # See traffing on the bus
 candump can0
 ```
+
+!!! Don't forget to connect the 120Ohm resistors (or connect jumper on two modules from network).
