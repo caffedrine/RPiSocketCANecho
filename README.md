@@ -27,6 +27,14 @@ sudo ip link set can0 up type can bitrate 500000
 ifconfig can0
 ```
 
+If everything was fine then net/ directory shall appear and print can0:
+```bash
+ls /sys/bus/spi/devices/spi0.0/net/
+can0
+```
+
+If connections are wrong then net/ won't appear! It will only appear after restart of the connections are correct!
+
 To test link use:
 
 ```bash
