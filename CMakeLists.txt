@@ -3,4 +3,4 @@ project(SocketCANecho)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(SocketCANecho main.cpp SocketCAN.cpp SocketCAN.h)
+add_executable(SocketCANecho main.cpp C_SocketCAN.cpp SocketCAN.h)

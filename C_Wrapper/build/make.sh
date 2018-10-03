@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-COMPILATION=1
+COMPILATION=0
 
 if [ $COMPILATION -eq 0 ]; then
     echo 'Start compilation executable...'
-    g++ -std=c++11 -lpthread ../main.cpp ../SocketCAN.cpp -o SocketCAN
+    gcc ../main.c ../C_SocketCAN.c -o CSocketCAN
 
     echo 'Launch application...'
-    ./SocketCAN
+    ./CSocketCAN
 else
     echo 'Start compilation shared library...'
-    g++ -shared -std=c++11 -lpthread ../SocketCAN.cpp -o SocketCAN.so
+    gcc -shared ../C_SocketCAN.c -o CSocketCAN.so
     echo 'Generated SocketCAN.so...'
 fi
 

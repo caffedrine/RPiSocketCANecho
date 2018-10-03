@@ -22,7 +22,6 @@ using namespace std;
 
 int main()
 {
-	
 	SocketCAN can("can0");
 	
 	struct can_frame recvFrame, sendFrame;
