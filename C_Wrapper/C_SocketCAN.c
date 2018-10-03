@@ -7,6 +7,8 @@
 #include <linux/can.h>
 #include <stdio.h>
 #include <string.h>
+#include <fcntl.h>
+#include <stdbool.h>
 
 #include "C_SocketCAN.h"
 
@@ -76,16 +78,39 @@ int CAN_WriteFrame(int sockfd, struct can_frame *SendFrame)
 
 int CAN_IsAvailable(int sockfd)
 {
-	int availableBytes = 0;
-	ioctl(sockfd, FIONREAD, &availableBytes);
-	
-	if( availableBytes < sizeof(struct can_frame) )
-		return 0;
-	
-	return (availableBytes / sizeof(struct can_frame));
+	fd_set sockset;
+	FD_ZERO(&sockset);
+	FD_SET(sockfd, &sockset);
+	int result = select(sockfd + 1, &sockset, NULL, NULL, NULL);
+	if (result == 1)
+	{
+		// The socket has data. For good measure, it's not a bad idea to test further
+		if (FD_ISSET(sockfd, &sockset) )
+		{
+			///TODO: Investigate
+//			int availableBytes = 0;
+//			ioctl(sockfd, FIONREAD, &availableBytes);
+//			if( availableBytes < sizeof(struct can_frame) )
+//				return 0;
+//			return (availableBytes / sizeof(struct can_frame));
+			return 1;
+		}
+	}
+	return 0;
 }
 
 void CAN_Close(int sockfd)
 {
 	close(sockfd);
 }
+
+int CAN_SetSocketBlockingEnabled(int fd, int blocking)
+{
+	if (fd < 0) return -1;
+
+	int flags = fcntl(fd, F_GETFL, 0);
+	if (flags == -1) return -1;
+	flags = blocking ? (flags & ~O_NONBLOCK) : (flags | O_NONBLOCK);
+	return (fcntl(fd, F_SETFL, flags) == 0) ? 0 : -1;
+}
+
