@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-g++ -std=c++11 ../main.cpp -o SocketCAN
+echo 'Start compilation...'
+g++ -std=c++11 -lpthread ../main.cpp ../SocketCAN.cpp -o SocketCAN
+
+echo 'Launch application...'
+
+./SocketCAN
