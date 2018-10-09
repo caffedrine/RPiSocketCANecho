@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-COMPILATION=0
+COMPILATION=1
 
 if [ $COMPILATION -eq 0 ]; then
     rm CSocketCAN

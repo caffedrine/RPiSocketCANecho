@@ -12,7 +12,9 @@
 
 #include "C_SocketCAN.h"
 
-int CAN_Open(const char *if_name)
+#define EXPORT __attribute__((visibility("default")))
+
+EXPORT int CAN_Open(const char *if_name)
 {
 	int sockfd;
 	struct sockaddr_can addr;
@@ -45,7 +47,7 @@ int CAN_Open(const char *if_name)
 	return sockfd;
 }
 
-int CAN_ReadFrame(int sockfd, struct can_frame *RecvFrame)
+EXPORT int CAN_ReadFrame(int sockfd, struct can_frame *RecvFrame)
 {
 	ssize_t recvBytes = read(sockfd, RecvFrame, sizeof(struct can_frame));
 	if( recvBytes < 0 )
@@ -60,7 +62,7 @@ int CAN_ReadFrame(int sockfd, struct can_frame *RecvFrame)
 	}
 }
 
-int CAN_WriteFrame(int sockfd, struct can_frame *SendFrame)
+EXPORT int CAN_WriteFrame(int sockfd, struct can_frame *SendFrame)
 {
 	ssize_t sendBytes = write(sockfd, SendFrame, sizeof(struct can_frame));
 	if( sendBytes < 0 )
@@ -76,7 +78,7 @@ int CAN_WriteFrame(int sockfd, struct can_frame *SendFrame)
 	return (int) sendBytes;
 }
 
-int CAN_IsAvailable(int sockfd)
+EXPORT int CAN_IsAvailable(int sockfd)
 {
 	fd_set sockset;
 	FD_ZERO(&sockset);
@@ -99,12 +101,12 @@ int CAN_IsAvailable(int sockfd)
 	return 0;
 }
 
-void CAN_Close(int sockfd)
+EXPORT void CAN_Close(int sockfd)
 {
 	close(sockfd);
 }
 
-int CAN_SetSocketBlockingEnabled(int fd, int blocking)
+EXPORT int CAN_SetSocketBlockingEnabled(int fd, int blocking)
 {
 	if (fd < 0) return -1;
 
